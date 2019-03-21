@@ -12,8 +12,10 @@ namespace Joomla\Component\Content\Administrator\View\Articles;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\Toolbar;
@@ -77,6 +79,14 @@ class HtmlView extends BaseHtmlView
 	 * @since  4.0.0
 	 */
 	protected $f_levels;
+
+	/**
+	 * Rendered column filter for table
+	 *
+	 * @return  string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $columnFilter;
 
 	/**
 	 * Display the view
@@ -181,6 +191,39 @@ class HtmlView extends BaseHtmlView
 		Text::script('COM_CONTENT_ERROR_CANNOT_UNPUBLISH');
 		Text::script('COM_CONTENT_ERROR_CANNOT_TRASH');
 		Text::script('COM_CONTENT_ERROR_CANNOT_ARCHIVE');
+
+		$columns = [
+			['name' => 'sort', 'protected' => true],
+			['name' => 'checkbox', 'protected' => true],
+			['name' => 'featured', 'title' => Text::_('JFEATURED')],
+			['name' => 'status', 'title' => Text::_('JSTATUS')],
+			['name' => 'title', 'title' => Text::_('JGLOBAL_TITLE'), 'protected' => true],
+			['name' => 'access', 'title' => Text::_('JGRID_HEADING_ACCESS')]
+		];
+
+		if (Associations::isEnabled())
+		{
+			$columns[] = ['name' => 'associations', 'title' => Text::_('COM_CONTENT_HEADING_ASSOCIATION')];
+		}
+
+		$columns[] = ['name' => 'author', 'title' => Text::_('JAUTHOR')];
+
+		if (Multilanguage::isEnabled())
+		{
+			$columns[] = ['name' => 'language', 'title' => Text::_('JGRID_HEADING_LANGUAGE')];
+		}
+
+		$columns[] = ['name' => 'date', 'title' => Text::_('COM_CONTENT_HEADING_DATE_ORDERING')];
+		$columns[] = ['name' => 'hits', 'title' => Text::_('JGLOBAL_HITS')];
+
+		if ($this->vote)
+		{
+			$columns[] = ['name' => 'votes', 'title' => Text::_('JGLOBAL_VOTES')];
+			$columns[] = ['name' => 'ratings', 'title' => Text::_('JGLOBAL_RATINGS')];
+		}
+
+		$columns[] = ['name' => 'id', 'title' => Text::_('JGRID_HEADING_ID')];
+		$this->columnFilter = LayoutHelper::render('joomla.table.columnfilter', array('name' => 'com_content.articles', 'id' => 'articleList', 'columns' => $columns));
 
 		return parent::display($tpl);
 	}
