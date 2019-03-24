@@ -192,37 +192,8 @@ class HtmlView extends BaseHtmlView
 		Text::script('COM_CONTENT_ERROR_CANNOT_TRASH');
 		Text::script('COM_CONTENT_ERROR_CANNOT_ARCHIVE');
 
-		$columns = [
-			['name' => 'sort', 'protected' => true],
-			['name' => 'checkbox', 'protected' => true],
-			['name' => 'featured', 'title' => Text::_('JFEATURED')],
-			['name' => 'status', 'title' => Text::_('JSTATUS')],
-			['name' => 'title', 'title' => Text::_('JGLOBAL_TITLE'), 'protected' => true],
-			['name' => 'access', 'title' => Text::_('JGRID_HEADING_ACCESS')]
-		];
+		$columns = $this->getFilterColumns();
 
-		if (Associations::isEnabled())
-		{
-			$columns[] = ['name' => 'associations', 'title' => Text::_('COM_CONTENT_HEADING_ASSOCIATION')];
-		}
-
-		$columns[] = ['name' => 'author', 'title' => Text::_('JAUTHOR')];
-
-		if (Multilanguage::isEnabled())
-		{
-			$columns[] = ['name' => 'language', 'title' => Text::_('JGRID_HEADING_LANGUAGE')];
-		}
-
-		$columns[] = ['name' => 'date', 'title' => Text::_('COM_CONTENT_HEADING_DATE_ORDERING')];
-		$columns[] = ['name' => 'hits', 'title' => Text::_('JGLOBAL_HITS')];
-
-		if ($this->vote)
-		{
-			$columns[] = ['name' => 'votes', 'title' => Text::_('JGLOBAL_VOTES')];
-			$columns[] = ['name' => 'ratings', 'title' => Text::_('JGLOBAL_RATINGS')];
-		}
-
-		$columns[] = ['name' => 'id', 'title' => Text::_('JGRID_HEADING_ID')];
 		$this->columnFilter = LayoutHelper::render('joomla.table.columnfilter', array('name' => 'com_content.articles', 'id' => 'articleList', 'columns' => $columns));
 
 		return parent::display($tpl);
@@ -346,5 +317,39 @@ class HtmlView extends BaseHtmlView
 			'a.id'           => Text::_('JGRID_HEADING_ID'),
 			'a.featured'     => Text::_('JFEATURED')
 		);
+	}
+
+	protected function getFilterColumns()
+	{
+		$columns = [
+			'featured' =>  Text::_('JFEATURED'),
+			'status' =>  Text::_('JSTATUS'),
+			'access' =>  Text::_('JGRID_HEADING_ACCESS')
+		];
+
+		if (Associations::isEnabled())
+		{
+			$columns['associations'] = Text::_('COM_CONTENT_HEADING_ASSOCIATION');
+		}
+
+		$columns['author'] = Text::_('JAUTHOR');
+
+		if (Multilanguage::isEnabled())
+		{
+			$columns['language'] = Text::_('JGRID_HEADING_LANGUAGE');
+		}
+
+		$columns['date'] = Text::_('COM_CONTENT_HEADING_DATE_ORDERING');
+		$columns['hits'] = Text::_('JGLOBAL_HITS');
+
+		if ($this->vote)
+		{
+			$columns['votes'] = Text::_('JGLOBAL_VOTES');
+			$columns['ratings'] = Text::_('JGLOBAL_RATINGS');
+		}
+
+		$columns['id'] = Text::_('JGRID_HEADING_ID');
+
+		return $columns;
 	}
 }

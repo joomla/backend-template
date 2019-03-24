@@ -9,6 +9,8 @@
 
 defined('JPATH_BASE') or die;
 
+extract($displayData);
+
 /** @var Table $table */
 $columns = $displayData['columns'];
 $id = $displayData['id'];
@@ -22,16 +24,16 @@ $name = $displayData['name'];
 	<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
 		<form class="px-4 py-3">
 			<div class="form-group">
-				<?php foreach ($columns as $column) : ?>
-				<?php if (!isset($column['title'])) continue; ?>
+				<?php foreach ($columns as $key => $name) : ?>
 				<div class="form-check">
-					<input type="checkbox" class="form-check-input" id="dropdownCheck" checked <?php echo isset($column['protected']) ? 'disabled' : ''; ?>>
+					<input type="checkbox" class="form-check-input" id="dropdownCheck" name="visibleFields[]" value="<?php echo $this->escape($key); ?>" checked>
 					<label class="form-check-label" for="dropdownCheck">
-						<?php echo $column['title']; ?>
+						<?php echo $this->escape($name); ?>
 					</label>
 				</div>
 				<?php endforeach; ?>
 			</div>
+
 		</form>
 	</div>
 </div>
