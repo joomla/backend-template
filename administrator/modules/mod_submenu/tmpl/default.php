@@ -14,24 +14,28 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 HTMLHelper::_('script', 'com_cpanel/admin-system-loader.js', ['version' => 'auto', 'relative' => true]);
-$bootstrapSize  = (int) $params->get('bootstrap_size', 6);
+$bootstrapSize = (int) $params->get('bootstrap_size', 6);
 $columns = (int) ($bootstrapSize ? $bootstrapSize : 3) / 3;
 $columnSize = 12 / $columns;
+$columnsSmall = (int) ($bootstrapSize ? $bootstrapSize : 4) / 4;
+$columnSizeSmall = 12 / $columnsSmall;
 $app = JFactory::getApplication();
 $user = $app->getIdentity();
 
 /** @var  \Joomla\CMS\Menu\MenuItem  $root */
 ?>
-<div class="col-md-<?php echo $bootstrapSize; ?> row">
+<div class="col-md-<?php echo $bootstrapSize; ?>">
 	<?php if (Factory::getUser()->authorise('core.edit', 'com_modules')) : ?>
-        <div class="module-actions">
-            <a href="<?php echo 'index.php?option=com_modules&task=module.edit&id=' . (int) $module->id; ?>">
-                <span class="fa fa-cog"><span class="sr-only"><?php echo Text::_('JACTION_EDIT') . ' ' . $module->title; ?></span></span></a>
-        </div>
+	<div class="module-actions">
+		<a href="<?php echo 'index.php?option=com_modules&task=module.edit&id=' . (int) $module->id; ?>">
+			<span class="fa fa-cog"><span class="sr-only"><?php echo Text::_('JACTION_EDIT') . ' ' . $module->title; ?></span></span>
+		</a>
+	</div>
 	<?php endif; ?>
+	<div class="row">
 	<?php foreach ($root->getChildren() as $child) : ?>
 		<?php if ($child->hasChildren()) : ?>
-			<div class="card mb-3 col-md-<?php echo $columnSize; ?>">
+			<div class="card mb-3 col-lg-<?php echo $columnSize; ?> col-md-<?php echo $columnSizeSmall; ?>">
 				<h2 class="card-header">
 					<?php if ($child->icon) : ?><span class="fa fa-<?php echo $child->icon; ?>" aria-hidden="true"></span><?php endif; ?>
 					<?php echo Text::_($child->title); ?>
@@ -39,46 +43,57 @@ $user = $app->getIdentity();
 				<ul class="list-group list-group-flush">
 					<?php foreach ($child->getChildren() as $item) : ?>
 						<li class="list-group-item">
-							<a href="<?php echo $item->link; ?>"><?php echo Text::_($item->title); ?>
-								<?php if ($item->ajaxbadge) : ?>
-                                    <span class="menu-badge"><span class="fa fa-spin fa-spinner mt-1 system-counter" data-url="<?php echo $item->ajaxbadge; ?>"></span></span>
+							<?php $params = $item->getParams(); ?>
+							<?php // Only if Menu-show = true
+								if ($params->get('menu_show', 1)) : ?>
+								<?php
+								if (!empty($params->get('menu_image'))) :
+									$image = htmlspecialchars($params->get('menu_image'), ENT_QUOTES, 'UTF-8');
+									$class = htmlspecialchars($params->get('menu_image_css'), ENT_QUOTES, 'UTF-8');
+									$alt = $params->get('menu_text') ? '' : htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8');
+								endif;
+								?>
+								<a href="<?php echo $item->link; ?>">
+									<?php if (!empty($params->get('menu_image'))) : ?>
+										<?php echo HTMLHelper::_('image', $image, $alt, 'class="' . $class . '"'); ?>
+									<?php endif; ?>
+									<?php echo ($params->get('menu_text', 1)) ? Text::_($item->title) : ''; ?>
+								</a>
+								<span class="menu-quicktask">
+									<?php if ($params->get('menu-quicktask', false)) : ?>
+										<?php
+										$link = $params->get('menu-quicktask-link');
+										$icon = $params->get('menu-quicktask-icon', 'plus');
+										$title = $params->get('menu-quicktask-title', 'MOD_MENU_QUICKTASK_NEW');
+										$permission = $params->get('menu-quicktask-permission');
+										$scope = $item->scope !== 'default' ? $item->scope : null;
+										?>
+										<?php if (!$permission || $user->authorise($permission, $scope)) : ?>
+											<a href="<?php echo $link; ?>">
+												<span class="fa fa-<?php echo $icon; ?>" title="<?php echo htmlentities(Text::_($title)); ?>" aria-hidden="true"></span>
+												<span class="sr-only"><?php echo Text::_($title); ?></span>
+											</a>
+										<?php endif; ?>
+									<?php endif; ?>
+								</span>
+								<span class="menu-badge">
+									<?php if ($item->ajaxbadge) : ?>
+										<span class="fa fa-spin fa-spinner mt-1 system-counter" data-url="<?php echo $item->ajaxbadge; ?>"></span>
+									<?php endif; ?>
+								</span>
+								<?php if ($item->dashboard) : ?>
+									<span class="menu-dashboard">
+										<a href="<?php echo JRoute::_('index.php?option=com_cpanel&view=cpanel&dashboard=' . $item->dashboard); ?>">
+											<span class="fa fa-th-large" title="<?php echo htmlentities(Text::_('MOD_MENU_DASHBOARD_LINK')); ?>"></span>
+										</a>
+									</span>
 								<?php endif; ?>
-							</a>
-                            <?php if ($item->getParams()->get('menu-quicktask', false)) : ?>
-                                <?php
-                                $params = $item->getParams();
-                                $link = $params->get('menu-quicktask-link');
-                                $icon = $params->get('menu-quicktask-icon', 'plus');
-                                $title = $params->get('menu-quicktask-title', 'MOD_MENU_QUICKTASK_NEW');
-                                $permission = $params->get('menu-quicktask-permission');
-                                $scope = $item->scope !== 'default' ? $item->scope : null;
-                                ?>
-                                <?php if (!$permission || $user->authorise($permission, $scope)) : ?>
-                                    <span class="menu-quicktask"><a href="<?php echo $link; ?>">
-		                                <span class="fa fa-<?php echo $icon; ?>" title="<?php echo htmlentities(Text::_($title)); ?>" aria-hidden="true"></span>
-		                                <span class="sr-only"><?php echo Text::_($title); ?></span>
-		                            </a></span>
-                                <?php endif; ?>
-                            <?php endif; ?>
-                            <?php if ($item->dashboard) : ?>
-                                <span class="menu-dashboard">
-                                    <a href="<?php echo JRoute::_('index.php?option=com_cpanel&view=cpanel&dashboard=' . $item->dashboard); ?>">
-                                        <span class="fa fa-th-large" title="<?php echo htmlentities(Text::_('MOD_MENU_DASHBOARD_LINK')); ?>"></span>
-                                    </a>
-                                </span>
-                            <?php endif; ?>
-				<?php 
-				$params = json_decode($item->params);
-				if (!empty($params->menu_image)):
-					$image = htmlspecialchars($params->menu_image, ENT_QUOTES, 'UTF-8');
-					$class = htmlspecialchars($params->menu_image_css, ENT_QUOTES, 'UTF-8');
-					echo  HTMLHelper::_('image', $image, '', 'class="' .  $class . '"'); 
-				endif;
-				?>
+							<?php endif; ?>
 						</li>
 					<?php endforeach; ?>
 				</ul>
-        	</div>
-    	<?php endif; ?>
+			</div>
+		<?php endif; ?>
 	<?php endforeach; ?>
+	</div>
 </div>

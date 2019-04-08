@@ -50,6 +50,9 @@ $siteLogo  = $this->params->get('siteLogo')
 $loginLogo = $this->params->get('loginLogo')
 	? JUri::root() . $this->params->get('loginLogo')
 	: $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
+$smallLogo = $this->params->get('smallLogo')
+	? JUri::root() . $this->params->get('smallLogo')
+	: $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
 
 // Set some meta data
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
@@ -168,9 +171,10 @@ $this->addStyleDeclaration($css);
 <header id="header" class="header">
 	<div class="d-flex align-items-center">
 		<div class="header-title mr-auto">
-			<div class="logo">
-				<img src="<?php echo $siteLogo; ?>" alt="">
-			</div>
+            <div class="logo">
+                <img src="<?php echo $siteLogo; ?>" alt="">
+                <img class="logo-small" src="<?php echo $smallLogo; ?>" alt="">
+            </div>
 		</div>
 	</div>
 </header>
@@ -195,7 +199,7 @@ $this->addStyleDeclaration($css);
 					<div class="main-brand d-flex align-items-center justify-content-center">
 						<img src="<?php echo $loginLogo; ?>" alt="">
 					</div>
-					<h1><?php echo Text::_('TPL_ATUM_LOGIN_HEADING'); ?></h1>
+					<h1><?php echo Text::_('TPL_ATUM_BACKEND_LOGIN'); ?></h1>
 					<jdoc:include type="message"/>
 					<jdoc:include type="component"/>
 				</div>

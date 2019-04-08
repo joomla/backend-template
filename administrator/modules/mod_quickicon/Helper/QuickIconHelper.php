@@ -79,129 +79,132 @@ abstract class QuickIconHelper
 				
 				if ($params->get('show_global', '1'))
 				{				
-					self::$buttons[$key][] = 
-						[
-							'link'   => Route::_('index.php?option=com_config'),
-							'image'  => 'fa fa-cog',
-							'text'   => Text::_('MOD_QUICKICON_GLOBAL_CONFIGURATION'),
-							'access' => array('core.manage', 'com_config', 'core.admin', 'com_config'),
-							'group'  => 'MOD_QUICKICON_CONFIGURATION',
-						];
+					self::$buttons[$key][] = [
+						'link'   => Route::_('index.php?option=com_config'),
+						'image'  => 'fa fa-cog',
+						'text'   => Text::_('MOD_QUICKICON_GLOBAL_CONFIGURATION'),
+						'access' => array('core.manage', 'com_config', 'core.admin', 'com_config'),
+						'group'  => 'MOD_QUICKICON_CONFIGURATION',
+					];
 				}
 
 				if ($params->get('show_users', '1'))
 				{
 					$amount = self::countUsers();
 					
-					self::$buttons[$key][] =  
-						[
-							'amount' => $amount,
-							'link'   => Route::_('index.php?option=com_users'),
-							'linkadd'   => Route::_('index.php?option=com_users&task=user.add'),
-							'name'   => Text::plural('MOD_QUICKICON_USER_MANAGER', $amount),
-							'access' => array('core.manage', 'com_users', 'core.create', 'com_users'),
-							'group'  => 'MOD_QUICKICON_USERS',
-						];
+					self::$buttons[$key][] = [
+						'amount' => $amount,
+						'link'   => Route::_('index.php?option=com_users'),
+						'linkadd'   => Route::_('index.php?option=com_users&task=user.add'),
+						'addwhat' => Text::plural('MOD_QUICKICON_USER_MANAGER', 1),
+						'name'   => Text::plural('MOD_QUICKICON_USER_MANAGER', $amount),
+						'access' => array('core.manage', 'com_users', 'core.create', 'com_users'),
+						'group'  => 'MOD_QUICKICON_USERS',
+					];
 				}
 
 				if ($params->get('show_menuItems', '1'))
 				{
 					$amount = self::countMenuItems();
 					
-					self::$buttons[$key][] =  
-						[
-							'amount' => $amount,
-							'link'   => Route::_('index.php?option=com_users'),
-							'linkadd'   => Route::_('index.php?option=com_menus&task=item.add'),
-							'name'   => Text::plural('MOD_QUICKICON_MENUITEMS_MANAGER', $amount),
-							'access' => array('core.manage', 'com_menus', 'core.create', 'com_menus'),
-							'group'  => 'MOD_QUICKICON_STRUCTURE',
-						];
+					self::$buttons[$key][] = [
+						'amount' => $amount,
+						'link'   => Route::_('index.php?option=com_menus'),
+						'linkadd'   => Route::_('index.php?option=com_menus&task=item.add'),
+						'addwhat' => Text::plural('MOD_QUICKICON_MENUITEMS_MANAGER', 1),
+						'name'   => Text::plural('MOD_QUICKICON_MENUITEMS_MANAGER', $amount),
+						'access' => array('core.manage', 'com_menus', 'core.create', 'com_menus'),
+						'group'  => 'MOD_QUICKICON_STRUCTURE',
+					];
 				}
 
 				if ($params->get('show_articles', '1'))
 				{
 					$amount = self::countArticles();
 					
-					self::$buttons[$key][] =  
-						[
-							'amount' => $amount,
-							'link'   => Route::_('index.php?option=com_content'),
-							'linkadd'   => Route::_('index.php?option=com_content&task=article.add'),
-							'name'   => Text::plural('MOD_QUICKICON_ARTICLE_MANAGER', $amount),
-							'access' => array('core.manage', 'com_content', 'core.create', 'com_content'),
-							'group'  => 'MOD_QUICKICON_CONTENT',
-						];
+					self::$buttons[$key][] = [
+						'amount' => $amount,
+						'link'   => Route::_('index.php?option=com_content'),
+						'linkadd'   => Route::_('index.php?option=com_content&task=article.add'),
+						'addwhat' => Text::plural('MOD_QUICKICON_ARTICLE_MANAGER', 1),
+						'name'   => Text::plural('MOD_QUICKICON_ARTICLE_MANAGER', $amount),
+						'access' => array('core.manage', 'com_content', 'core.create', 'com_content'),
+						'group'  => 'MOD_QUICKICON_CONTENT',
+					];
 				}
 		
 				if ($params->get('show_categories', '1'))
 				{
 					$amount = self::countArticleCategories();
 					
-					self::$buttons[$key][] =  
-						[
-							'amount' => $amount,
-							'link'   => Route::_('index.php?option=com_categories'),
-							'linkadd'   => Route::_('index.php?option=com_categories&task=category.add'),
-							'name'   => Text::plural('MOD_QUICKICON_CATEGORY_MANAGER', $amount),
-							'access' => array('core.manage', 'com_categories', 'core.create', 'com_categories'),
-							'group'  => 'MOD_QUICKICON_CONTENT',
-
-						];
+					self::$buttons[$key][] = [
+						'amount' => $amount,
+						'link'   => Route::_('index.php?option=com_categories'),
+						'addwhat' => Text::plural('MOD_QUICKICON_CATEGORY_MANAGER', 1),
+						'linkadd'   => Route::_('index.php?option=com_categories&task=category.add'),
+						'name'   => Text::plural('MOD_QUICKICON_CATEGORY_MANAGER', $amount),
+						'access' => array('core.manage', 'com_categories', 'core.create', 'com_categories'),
+						'group'  => 'MOD_QUICKICON_CONTENT',
+					];
 				}
 
 				if ($params->get('show_media', '1'))
 				{
-					self::$buttons[$key][] =  
-						[
-							'image'  => 'fa fa-image',
-							'link'   => Route::_('index.php?option=com_media'),
-							'text'   => Text::_('MOD_QUICKICON_MEDIA_MANAGER'),
-							'access' => array('core.manage', 'com_media'),
-							'group'  => 'MOD_QUICKICON_CONTENT',
-						];
+					self::$buttons[$key][] = [
+						'image'  => 'fa fa-image',
+						'link'   => Route::_('index.php?option=com_media'),
+						'text'   => Text::_('MOD_QUICKICON_MEDIA_MANAGER'),
+						'access' => array('core.manage', 'com_media'),
+						'group'  => 'MOD_QUICKICON_CONTENT',
+					];
 				}
 
 				if ($params->get('show_modules', '1'))
 				{
 					$amount = self::countModules();
 					
-					self::$buttons[$key][] =  
-						[
-							'amount' => $amount,
-							'link'   => Route::_('index.php?option=com_modules'),
-							'text'   => Text::plural('MOD_QUICKICON_MODULE_MANAGER', $amount),
-							'access' => array('core.manage', 'com_modules'),
-							'group'  => 'MOD_QUICKICON_CONTENT'
-
-						];
+					self::$buttons[$key][] = [
+						'amount' => $amount,
+						'link'   => Route::_('index.php?option=com_modules'),
+						'text'   => Text::plural('MOD_QUICKICON_MODULE_MANAGER', $amount),
+						'access' => array('core.manage', 'com_modules'),
+						'group'  => 'MOD_QUICKICON_CONTENT'
+					];
 				}
 
 				if ($params->get('show_plugins', '1'))
 				{
 					$amount = self::countPlugins();
 					
-					self::$buttons[$key][] =  
-						[
-							'amount' => $amount,
-							'link'   => Route::_('index.php?option=com_plugins'),
-							'text'   => Text::plural('MOD_QUICKICON_PLUGIN_MANAGER', $amount),
-							'access' => array('core.manage', 'com_plugins'),
-							'group'  => 'MOD_QUICKICON_MAINTENANCE'
-
-						];
+					self::$buttons[$key][] = [
+						'amount' => $amount,
+						'link'   => Route::_('index.php?option=com_plugins'),
+						'text'   => Text::plural('MOD_QUICKICON_PLUGIN_MANAGER', $amount),
+						'access' => array('core.manage', 'com_plugins'),
+						'group'  => 'MOD_QUICKICON_MAINTENANCE'
+					];
 				}
 
 				if ($params->get('show_checkin', '1'))
 				{
-					self::$buttons[$key][] = 
-						[
-							'amount' => self::countCheckin(),
-							'link'   => Route::_('index.php?option=com_checkin'),
-							'text'   => Text::_('MOD_QUICKICON_CHECKINS'),
-							'access' => array('core.admin', 'com_checkin'),
-							'group'  => 'MOD_QUICKICON_CONTENT'
-						];
+					self::$buttons[$key][] = [
+						'amount' => self::countCheckin(),
+						'link'   => Route::_('index.php?option=com_checkin'),
+						'text'   => Text::_('MOD_QUICKICON_CHECKINS'),
+						'access' => array('core.admin', 'com_checkin'),
+						'group'  => 'MOD_QUICKICON_CONTENT'
+					];
+				}
+
+				if ($params->get('show_templates', '1'))
+				{
+					self::$buttons[$key][] = [
+						'amount' => self::countTemplates(),
+						'link'   => Route::_('index.php?option=com_templates&client_id=0'),
+						'text'   => Text::_('MOD_QUICKICON_TEMPLATES'),
+						'access' => array('core.admin', 'com_templates'),
+						'group'  => 'MOD_QUICKICON_TEMPLATES'
+					];
 				}
 			}
 
@@ -220,6 +223,7 @@ abstract class QuickIconHelper
 					$default = array(
 						'amount' => null,
 						'link'   => null,
+						'addwhat'   => null,
 						'linkadd'   => null,
 						'name' => null,
 						'image'  => null,
@@ -280,16 +284,14 @@ abstract class QuickIconHelper
 			->createModel('Articles', 'Administrator', ['ignore_request' => true]);
 
 		// Count IDs
-		$model->setState('list.select', 'COUNT(a.id) as amount');
+		$model->setState('list.select', 'a.id');
 
 		// Set the Start and Limit to 'all'
 		$model->setState('list.start', 0);
 		$model->setState('list.limit', 0);
 		$model->setState('filter.published', 1);
 
-		$result = $model->getItems();
-		
-		return reset($result)->amount;
+		return count($model->getItems());
 	}
 	
 	/**
@@ -305,19 +307,17 @@ abstract class QuickIconHelper
 		
 		// Get an instance of the menuitems model (administrator)
 		$model = $app->bootComponent('com_menus')->getMVCFactory()->createModel('Items', 'Administrator', ['ignore_request' => true]);
-		
+
 		// Count IDs
-		$model->setState('list.select', 'COUNT(a.id) as amount');
-		
+		$model->setState('list.select', 'a.id');
+
 		// Set the Start and Limit to 'all'
 		$model->setState('list.start', 0);
 		$model->setState('list.limit', 0);
 		$model->setState('filter.published', 1);
 		$model->setState('filter.client_id', 0);
 
-		$result = $model->getItems();
-		
-		return reset($result)->amount;
+		return count($model->getItems());
 	}
 	
 	/**
@@ -330,11 +330,11 @@ abstract class QuickIconHelper
 	private static function countUsers()
 	{
 		$app = Factory::getApplication();
-		
+
 		$model = $app->bootComponent('com_users')->getMVCFactory()->createModel('Users', 'Administrator', ['ignore_request' => true]);
 
 		$model->setState('list.select', '*');
-		
+
 		// Set the Start and Limit to 'all'
 		$model->setState('list.start', 0);
 		$model->setState('list.limit', 0);
@@ -353,11 +353,11 @@ abstract class QuickIconHelper
 	private static function countPlugins()
 	{
 		$app = Factory::getApplication();
-		
+
 		$model = $app->bootComponent('com_plugins')->getMVCFactory()->createModel('Plugins', 'Administrator', ['ignore_request' => true]);
 
 		$model->setState('list.select', '*');
-		
+
 		// Set the Start and Limit to 'all'
 		$model->setState('list.start', 0);
 		$model->setState('list.limit', 0);
@@ -379,15 +379,14 @@ abstract class QuickIconHelper
 		
 		$model = $app->bootComponent('com_categories')->getMVCFactory()->createModel('Categories', 'Administrator', ['ignore_request' => true]);
 
-		$model->setState('list.select', 'COUNT(a.id) as amount');
-		
+		$model->setState('list.select', 'a.id');
+
 		$model->setState('list.start', 0);
 		$model->setState('list.limit', 0);
 		$model->setState('filter.published', 1);
-		
-		$result = $model->getItems();
+		$model->setState('filter.extension', 'com_content');
 
-		return count($result);
+		return count($model->getItems());
 	}
 
 	/**
@@ -400,9 +399,25 @@ abstract class QuickIconHelper
 	private static function countCheckin()
 	{
 		$app = Factory::getApplication();
-		
+
 		$model = $app->bootComponent('com_checkin')->getMVCFactory()->createModel('Checkin', 'Administrator', ['ignore_request' => true]);
-	
+
 		return $model->getTotal();
+	}
+
+	/**
+	 * Method to get Templates
+	 * 
+	 * @return  integer  The amount of Templates
+	 *
+	 * @since   4.0
+	 */
+	private static function countTemplates()
+	{
+		$app = Factory::getApplication();
+
+		$model = $app->bootComponent('com_templates')->getMVCFactory()->createModel('Templates', 'Administrator', ['ignore_request' => true]);
+		
+		return count($model->getItems());
 	}
 }
