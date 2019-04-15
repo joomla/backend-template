@@ -386,6 +386,14 @@ class AdminController extends BaseController
 		}
 	}
 
+	public function saveTableColumnsFilter()
+	{
+		$user = $this->app->getIdentity();
+
+		$user->setParam('joomla.table.' . $table, null);
+		$user->save();
+	}
+
 	/**
 	 * Method to save the submitted ordering values for records via AJAX.
 	 *

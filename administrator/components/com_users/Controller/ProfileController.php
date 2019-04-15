@@ -13,11 +13,13 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Help\Help;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Response\JsonResponse;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Profile controller class for Users.
