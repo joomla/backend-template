@@ -373,10 +373,19 @@ class AdminController extends BaseController
 
 	public function saveTableColumnsFilter()
 	{
-		$user = $this->app->getIdentity();
+		$columns = $this->input->get('visibleFields', [], 'array');
 
-		$user->setParam('joomla.table.' . $table, null);
-		$user->save();
+		$model = $this->getModel();
+
+		$return = $model->saveColumnFilter($columns);
+
+		if ($return)
+		{
+			echo '1';
+		}
+
+		// Close the application
+		$this->app->close();
 	}
 
 	/**

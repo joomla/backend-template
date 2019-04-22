@@ -1352,6 +1352,28 @@ abstract class AdminModel extends FormModel
 	}
 
 	/**
+	 * Saves the enabled table columns.
+	 *
+	 * @param   array  $columns    An array of primary key ids.
+	 *
+	 * @return  boolean  Boolean true on success, false on failure
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function saveTableColumnsFilter($columns = [])
+	{
+		$user = Factory::getApplication()->getIdentity();
+
+		$name = $this->getName();
+
+		$registry = new Registry($columns);
+
+		$user->setParam('columnsfilter.' . $name, $registry->toString());
+
+		return $user->save();
+	}
+
+	/**
 	 * Saves the manually set order of records.
 	 *
 	 * @param   array    $pks    An array of primary key ids.
