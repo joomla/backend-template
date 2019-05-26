@@ -74,6 +74,10 @@ $css = '
 	}
 ';
 
+HTMLHelper::getServiceRegistry()->register('atum', 'Joomla\\Template\\Atum\\Administrator\\Service\\HTML\\Atum');
+
+HTMLHelper::_('atum.rootcolors', $this->params);
+
 $root = [];
 
 $steps = 10;
