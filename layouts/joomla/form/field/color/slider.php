@@ -57,6 +57,7 @@ $onchange     = $onchange ? ' onchange="' . $onchange . '"' : '';
 $onclick      = $onclick ? ' onclick="' . $onclick . '"' : '';
 $preview      = $preview ? ' data-preview="' . $preview . '"' : '';
 $readonly     = $readonly ? ' readonly' : '';
+$required     = $required ? ' required' : '';
 $saveFormat   = $saveFormat ? ' data-format="' . $saveFormat . '"' : '';
 $size         = $size ? ' size="' . $size . '"' : '';
 $validate     = $validate ? ' data-validate="' . $validate . '"' : '';
